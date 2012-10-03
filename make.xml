@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<targets>
+
+  <rrlib name="buffer_pools_new">
+    <sources>
+      *.h
+      *.cpp
+      policies/**
+    </sources>
+  </rrlib>
+  
+  <testprogram name="basic_operation">
+    <sources>
+      test/basic_operation.cpp
+    </sources>
+  </testprogram>
+  
+</targets>
