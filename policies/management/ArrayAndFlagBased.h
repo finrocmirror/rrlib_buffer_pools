@@ -97,7 +97,8 @@ class ArrayAndFlagBased : TAddMutex
 
     ~tArrayChunk()
     {
-      delete next_chunk;
+      tArrayChunk* next = next_chunk;
+      delete next;
     }
   };
 
