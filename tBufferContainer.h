@@ -67,7 +67,7 @@ namespace buffer_pools
  * Required for UseBufferContainer recycling policy.
  */
 template <typename T>
-class tBufferContainer : public tBufferManagementInfo, public rrlib::concurrent_containers::tQueueable
+class tBufferContainer : public tBufferManagementInfo, public concurrent_containers::tQueueable<concurrent_containers::tQueueability::MOST_OPTIMIZED>
 {
 
 //----------------------------------------------------------------------

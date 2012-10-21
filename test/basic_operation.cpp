@@ -60,7 +60,7 @@ using namespace rrlib::concurrent_containers;
 //----------------------------------------------------------------------
 // Implementation
 //----------------------------------------------------------------------
-class tTestType : public tQueueable, public tBufferManagementInfo
+class tTestType : public tQueueable<tQueueability::MOST_OPTIMIZED>, public tBufferManagementInfo
 {
 public:
   tTestType(const std::string& content) : content(content) {}
@@ -125,7 +125,7 @@ void TestBufferPool(TPool* pool)
 
 template < typename T,
          bool INSTANT_DELETE,
-         template <typename, tQueueConcurrency, typename ...> class TBufferManagementPolicy,
+         template <typename, tConcurrency, typename ...> class TBufferManagementPolicy,
          template <typename> class TDeletingPolicy,
          template <typename, typename> class TRecycling,
          typename... TBufferManagementPolicyArgs >
@@ -133,33 +133,28 @@ void TestBufferPoolWithAllConcurrencyLevels(const char* pool_type_printf_string)
 {
   RRLIB_LOG_PRINTF(USER, " ");
   {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::NONE");
-    typedef tBufferPool<T, tQueueConcurrency::NONE, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
+    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tConcurrency::NONE");
+    typedef tBufferPool<T, tConcurrency::NONE, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
     TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
   }
   {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::SINGLE_READER_AND_WRITER_FAST");
-    typedef tBufferPool<T, tQueueConcurrency::SINGLE_READER_AND_WRITER_FAST, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
+    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tConcurrency::SINGLE_READER_AND_WRITER");
+    typedef tBufferPool<T, tConcurrency::SINGLE_READER_AND_WRITER, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
     TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
   }
   {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::MULTIPLE_WRITERS");
-    typedef tBufferPool<T, tQueueConcurrency::MULTIPLE_WRITERS, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
+    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tConcurrency::MULTIPLE_WRITERS");
+    typedef tBufferPool<T, tConcurrency::MULTIPLE_WRITERS, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
     TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
   }
   {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::MULTIPLE_WRITERS_FAST");
-    typedef tBufferPool<T, tQueueConcurrency::MULTIPLE_WRITERS_FAST, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
+    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tConcurrency::MULTIPLE_READERS");
+    typedef tBufferPool<T, tConcurrency::MULTIPLE_READERS, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
     TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
   }
   {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::MULTIPLE_READERS_FAST");
-    typedef tBufferPool<T, tQueueConcurrency::MULTIPLE_READERS_FAST, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
-    TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
-  }
-  {
-    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tQueueConcurrency::FULL_FAST");
-    typedef tBufferPool<T, tQueueConcurrency::FULL_FAST, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
+    RRLIB_LOG_PRINTF(USER, pool_type_printf_string, "tConcurrency::FULL");
+    typedef tBufferPool<T, tConcurrency::FULL, TBufferManagementPolicy, TDeletingPolicy, TRecycling, TBufferManagementPolicyArgs...> tPool;
     TestBufferPool<T, typename tPool::tManagedType, INSTANT_DELETE>(new tPool());
   }
 }

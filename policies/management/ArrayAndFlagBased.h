@@ -74,12 +74,12 @@ namespace management
  * TAddMutex Mutex to protect AddBuffer operation with (may be tNoMutex if concurrent adding does not occur)
  */
 template < typename T,
-         concurrent_containers::tQueueConcurrency CONCURRENCY,
-         typename TAddMutex = typename std::conditional < (CONCURRENCY == concurrent_containers::tQueueConcurrency::FULL_FAST) || (CONCURRENCY == concurrent_containers::tQueueConcurrency::MULTIPLE_READERS_FAST), thread::tMutex, thread::tNoMutex >::type >
+         concurrent_containers::tConcurrency CONCURRENCY,
+         typename TAddMutex = typename std::conditional < (CONCURRENCY == concurrent_containers::tConcurrency::FULL) || (CONCURRENCY == concurrent_containers::tConcurrency::MULTIPLE_READERS), thread::tMutex, thread::tNoMutex >::type >
 class ArrayAndFlagBased : TAddMutex
 {
-  enum { cMULTIPLE_READERS = (CONCURRENCY == concurrent_containers::tQueueConcurrency::FULL_FAST) || (CONCURRENCY == concurrent_containers::tQueueConcurrency::MULTIPLE_READERS_FAST) };
-  enum { cATOMIC_ARRAY_ELEMENTS = (CONCURRENCY != concurrent_containers::tQueueConcurrency::NONE) };
+  enum { cMULTIPLE_READERS = (CONCURRENCY == concurrent_containers::tConcurrency::FULL) || (CONCURRENCY == concurrent_containers::tConcurrency::MULTIPLE_READERS) };
+  enum { cATOMIC_ARRAY_ELEMENTS = (CONCURRENCY != concurrent_containers::tConcurrency::NONE) };
   enum { cARRAY_CHUNK_SIZE = 15 }; // TODO make this template argument
   typedef typename std::conditional<cATOMIC_ARRAY_ELEMENTS, std::atomic<T*>, T*>::type tArrayElement;
   struct tArrayChunk;

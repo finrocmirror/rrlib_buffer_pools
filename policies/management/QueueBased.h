@@ -69,13 +69,24 @@ namespace management
  * Pro: Scales well with many buffers
  * Con: Types T must be queueable => memory overhead & possibly difficult to achieve
  */
-template <typename T, concurrent_containers::tQueueConcurrency CONCURRENCY>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
 class QueueBased
 {
 
-  static_assert(std::is_base_of<concurrent_containers::tQueueable, T>::value ||
-                (CONCURRENCY == concurrent_containers::tQueueConcurrency::NONE && std::is_base_of<concurrent_containers::tQueueableSingleThreaded, T>::value),
+  static_assert(std::is_base_of<concurrent_containers::queue::tQueueableMost, T>::value ||
+                (CONCURRENCY == concurrent_containers::tConcurrency::NONE && std::is_base_of<concurrent_containers::queue::tQueueableSingleThreaded, T>::value),
                 "Only queueable types may be used with queue-based policy. Choosing UseBufferContainer Recycling policy might be an alternative.");
+
+  /*! Pointer type used in internal queue (we don't want any auto-recycling here) */
+  typedef std::unique_ptr<T> tQueuePointer;
+
+  /*!
+   * Type of queue backend.
+   * TODO: maybe we should make dequeue mode choosable.
+   * Using fast queue implementation will reduce computational overhead.
+   * On the other hand there is always one additional unused buffer in pool.
+   */
+  typedef concurrent_containers::tQueue<tQueuePointer, CONCURRENCY, concurrent_containers::tDequeueMode::FIFO_FAST> tQueueType;
 
 //----------------------------------------------------------------------
 // Public methods and typedefs
@@ -108,7 +119,7 @@ public:
       }
       buffer_count--;
     }
-    return buffer_count - concurrent_containers::tQueue<tQueuePointer, CONCURRENCY>::cMINIMUM_ELEMENTS_IN_QEUEUE;
+    return buffer_count - tQueueType::cMINIMUM_ELEMENTS_IN_QEUEUE;
   }
 
   T* GetUnusedBuffer(tBufferManagementInfo& info)
@@ -129,11 +140,8 @@ public:
 //----------------------------------------------------------------------
 private:
 
-  /*! Pointer type used in internal queue (we don't want any auto-recycling here) */
-  typedef std::unique_ptr<T> tQueuePointer;
-
   /*! Queue containing the unused buffers of this pool */
-  concurrent_containers::tQueue<tQueuePointer, CONCURRENCY> unused_buffers;
+  tQueueType unused_buffers;
 
   /*! Number of buffers in this pool */
   std::atomic<int> buffer_count;

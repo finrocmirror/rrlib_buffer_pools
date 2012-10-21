@@ -98,8 +98,8 @@ namespace buffer_pools
  * TBufferManagementPolicyArgs  Any additional arguments for the BufferManagementPolicy (apart from T and CONCURRENCY)
  */
 template < typename T,
-         concurrent_containers::tQueueConcurrency CONCURRENCY,
-         template <typename, concurrent_containers::tQueueConcurrency, typename ...> class TBufferManagementPolicy = management::QueueBased,
+         concurrent_containers::tConcurrency CONCURRENCY,
+         template <typename, concurrent_containers::tConcurrency, typename ...> class TBufferManagementPolicy = management::QueueBased,
          template <typename> class TDeletingPolicy = deleting::ComplainOnMissingBuffers,
          template <typename, typename> class TRecycling = recycling::StoreOwnerInUniquePointer,
          typename... TBufferManagementPolicyArgs >

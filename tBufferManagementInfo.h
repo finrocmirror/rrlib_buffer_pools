@@ -40,6 +40,7 @@
 //----------------------------------------------------------------------
 // External includes (system with <>, local with "")
 //----------------------------------------------------------------------
+#include "rrlib/concurrent_containers/tConcurrency.h"
 
 //----------------------------------------------------------------------
 // Internal includes with ""
@@ -59,10 +60,10 @@ namespace buffer_pools
 //----------------------------------------------------------------------
 namespace management
 {
-template <typename T, concurrent_containers::tQueueConcurrency CONCURRENCY, typename>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename>
 class ArrayAndFlagBased;
 
-template <typename T, concurrent_containers::tQueueConcurrency CONCURRENCY>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
 class QueueBased;
 }
 
@@ -90,10 +91,10 @@ public:
 //----------------------------------------------------------------------
 private:
 
-  template <typename T, concurrent_containers::tQueueConcurrency CONCURRENCY, typename>
+  template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename>
   friend class management::ArrayAndFlagBased;
 
-  template <typename T, concurrent_containers::tQueueConcurrency CONCURRENCY>
+  template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
   friend class management::QueueBased;
 
   /*!
