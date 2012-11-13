@@ -89,7 +89,7 @@ struct tDeletionList
 typedef rrlib::design_patterns::tSingletonHolder<tDeletionList, rrlib::design_patterns::singleton::Longevity> tDeletionListInstance;
 static inline unsigned int GetLongevity(tDeletionList*)
 {
-  return 0xFF000000; // should exist longer than any reusable (and longer than any thread objects
+  return 0xFF000000; // should exist longer than any reusable (and longer than any thread objects)
 }
 
 }

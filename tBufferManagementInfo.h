@@ -60,10 +60,10 @@ namespace buffer_pools
 //----------------------------------------------------------------------
 namespace management
 {
-template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename TBufferDeleter, typename>
 class ArrayAndFlagBased;
 
-template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename TBufferDeleter>
 class QueueBased;
 }
 
@@ -91,10 +91,10 @@ public:
 //----------------------------------------------------------------------
 private:
 
-  template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename>
+  template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename TBufferDeleter, typename>
   friend class management::ArrayAndFlagBased;
 
-  template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
+  template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename TBufferDeleter>
   friend class management::QueueBased;
 
   /*!

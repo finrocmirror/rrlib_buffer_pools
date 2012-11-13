@@ -75,6 +75,7 @@ namespace management
  */
 template < typename T,
          concurrent_containers::tConcurrency CONCURRENCY,
+         typename TBufferDeleter,
          typename TAddMutex = typename std::conditional < (CONCURRENCY == concurrent_containers::tConcurrency::FULL) || (CONCURRENCY == concurrent_containers::tConcurrency::MULTIPLE_READERS), thread::tMutex, thread::tNoMutex >::type >
 class ArrayAndFlagBased : TAddMutex
 {
@@ -152,7 +153,8 @@ public:
         T* buffer = (*it);
         if (buffer)
         {
-          delete buffer;
+          TBufferDeleter deleter;
+          deleter(buffer);
           this->buffer_count--;
         }
       }

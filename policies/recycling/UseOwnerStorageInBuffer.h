@@ -64,7 +64,7 @@ namespace recycling
 //----------------------------------------------------------------------
 // Class declaration
 //----------------------------------------------------------------------
-//! SHORT_DESCRIPTION
+//! Policy for types derived from tBufferManagementInfo
 /*!
  * Use owner storage in buffer. In order for this to work, the type T must be derived
  * from tBufferManagementInfo.

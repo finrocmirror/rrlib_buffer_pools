@@ -69,7 +69,7 @@ namespace management
  * Pro: Scales well with many buffers
  * Con: Types T must be queueable => memory overhead & possibly difficult to achieve
  */
-template <typename T, concurrent_containers::tConcurrency CONCURRENCY>
+template <typename T, concurrent_containers::tConcurrency CONCURRENCY, typename TBufferDeleter>
 class QueueBased
 {
 
@@ -78,7 +78,7 @@ class QueueBased
                 "Only queueable types may be used with queue-based policy. Choosing UseBufferContainer Recycling policy might be an alternative.");
 
   /*! Pointer type used in internal queue (we don't want any auto-recycling here) */
-  typedef std::unique_ptr<T> tQueuePointer;
+  typedef std::unique_ptr<T, TBufferDeleter> tQueuePointer;
 
   /*!
    * Type of queue backend.

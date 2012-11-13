@@ -95,6 +95,7 @@ namespace buffer_pools
  *             about the originating buffer pool is stored. The Recycler determines what kinds of types T can be used,
  *             how unique pointer obtained from this class look like, and whether buffers can be added to concurrent queues.
  *             Custom recycling policies can make a lot of sense.
+ * TBufferDeleter
  * TBufferManagementPolicyArgs  Any additional arguments for the BufferManagementPolicy (apart from T and CONCURRENCY)
  */
 template < typename T,
@@ -102,10 +103,11 @@ template < typename T,
          template <typename, concurrent_containers::tConcurrency, typename ...> class TBufferManagementPolicy = management::QueueBased,
          template <typename> class TDeletingPolicy = deleting::ComplainOnMissingBuffers,
          template <typename, typename> class TRecycling = recycling::StoreOwnerInUniquePointer,
+         typename TBufferDeleter = std::default_delete<typename TRecycling<T, int>::tManagedType>,
          typename... TBufferManagementPolicyArgs >
 class tBufferPool : boost::noncopyable
 {
-  typedef TBufferManagementPolicy<typename TRecycling<T, int>::tManagedType, CONCURRENCY, TBufferManagementPolicyArgs...> tBufferManagement;
+  typedef TBufferManagementPolicy<typename TRecycling<T, int>::tManagedType, CONCURRENCY, TBufferDeleter, TBufferManagementPolicyArgs...> tBufferManagement;
   typedef TRecycling<T, tBufferManagement> tRecycler;
 
 //----------------------------------------------------------------------
@@ -164,13 +166,22 @@ public:
     return tRecycler::GetUnusedBuffer(buffer_management.GetBufferManagement());
   }
 
+  /*!
+   * \return Returns internal buffer management backend for special manual tweaking of
+   * buffer pool. In most cases, it should not be necessary to access internals.
+   */
+  tBufferManagement& InternalBufferManagement()
+  {
+    return buffer_management.GetBufferManagement();
+  }
+
 //----------------------------------------------------------------------
 // Private fields and methods
 //----------------------------------------------------------------------
 private:
 
   /*! Buffer Pool backend */
-  TDeletingPolicy<TBufferManagementPolicy<typename TRecycling<T, int>::tManagedType, CONCURRENCY, TBufferManagementPolicyArgs...>> buffer_management;
+  TDeletingPolicy<tBufferManagement> buffer_management;
 
 };
 
