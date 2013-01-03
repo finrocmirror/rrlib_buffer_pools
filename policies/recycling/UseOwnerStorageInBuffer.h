@@ -72,7 +72,6 @@ namespace recycling
 template <typename T, typename TBufferManagementPolicy>
 class UseOwnerStorageInBuffer
 {
-  static_assert(std::is_base_of<tBufferManagementInfo, T>::value, "Type T must be subclass of tBufferManagementInfo for this policy.");
 
 //----------------------------------------------------------------------
 // Public methods and typedefs
@@ -84,18 +83,21 @@ public:
 
   void operator()(T* p) const
   {
+    static_assert(std::is_base_of<tBufferManagementInfo, T>::value, "Type T must be subclass of tBufferManagementInfo for this policy."); // static assertions are in methods to deal with incomplete types properly
     tBufferManagementInfo& info_storage = static_cast<tBufferManagementInfo&>(*p);
     TBufferManagementPolicy::RecycleBuffer(info_storage, p);
   }
 
   static tPointer AddBuffer(TBufferManagementPolicy& buffer_management, std::unique_ptr<tManagedType> && buffer)
   {
+    static_assert(std::is_base_of<tBufferManagementInfo, T>::value, "Type T must be subclass of tBufferManagementInfo for this policy.");
     buffer_management.AddBuffer(buffer.get(), *buffer);
     return tPointer(buffer.release());
   }
 
   static tPointer GetUnusedBuffer(TBufferManagementPolicy& buffer_management)
   {
+    static_assert(std::is_base_of<tBufferManagementInfo, T>::value, "Type T must be subclass of tBufferManagementInfo for this policy.");
     tBufferManagementInfo info;
     return tPointer(buffer_management.GetUnusedBuffer(info));
   }

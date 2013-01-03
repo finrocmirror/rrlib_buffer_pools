@@ -107,13 +107,16 @@ template < typename T,
          typename... TBufferManagementPolicyArgs >
 class tBufferPool : boost::noncopyable
 {
-  typedef TBufferManagementPolicy<typename TRecycling<T, int>::tManagedType, CONCURRENCY, TBufferDeleter, TBufferManagementPolicyArgs...> tBufferManagement;
-  typedef TRecycling<T, tBufferManagement> tRecycler;
-
 //----------------------------------------------------------------------
 // Public methods and typedefs
 //----------------------------------------------------------------------
 public:
+
+  /*! Buffer management backend */
+  typedef TBufferManagementPolicy<typename TRecycling<T, int>::tManagedType, CONCURRENCY, TBufferDeleter, TBufferManagementPolicyArgs...> tBufferManagement;
+
+  /*! Recycling policy */
+  typedef TRecycling<T, tBufferManagement> tRecycler;
 
   /*!
    * Pointer type to preferably use to operate with buffers in client code.
@@ -130,6 +133,7 @@ public:
    * Usually, this is T - except of when using UseBufferContainer recycling policy.
    */
   typedef typename TRecycling<T, int>::tManagedType tManagedType;
+
 
   tBufferPool() :
     buffer_management()
