@@ -81,7 +81,7 @@ struct tDeletionList
     tGarbageFromDeletedBufferPools::DeleteGarbage();
     if (garbage_pools.size())
     {
-      RRLIB_LOG_PRINT(WARNING, garbage_pools.size(), " buffer pools have not been completely deleted.");
+      RRLIB_LOG_PRINT_STATIC(WARNING, garbage_pools.size(), " buffer pools have not been completely deleted.");
     }
   }
 };
@@ -112,6 +112,7 @@ void tGarbageFromDeletedBufferPools::DeleteGarbage()
     {
       delete *it;
       it = list.garbage_pools.erase(it);
+      --it;
     }
   }
 }
