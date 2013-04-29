@@ -77,7 +77,7 @@ template < typename T,
          concurrent_containers::tConcurrency CONCURRENCY,
          typename TBufferDeleter,
          typename TAddMutex = typename std::conditional < (CONCURRENCY == concurrent_containers::tConcurrency::FULL) || (CONCURRENCY == concurrent_containers::tConcurrency::MULTIPLE_READERS), thread::tMutex, thread::tNoMutex >::type >
-class ArrayAndFlagBased : TAddMutex
+class ArrayAndFlagBased : public TAddMutex
 {
   enum { cMULTIPLE_READERS = (CONCURRENCY == concurrent_containers::tConcurrency::FULL) || (CONCURRENCY == concurrent_containers::tConcurrency::MULTIPLE_READERS) };
   enum { cATOMIC_ARRAY_ELEMENTS = (CONCURRENCY != concurrent_containers::tConcurrency::NONE) };
