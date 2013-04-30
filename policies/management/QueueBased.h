@@ -44,6 +44,7 @@
 //----------------------------------------------------------------------
 // Internal includes with ""
 //----------------------------------------------------------------------
+#include "rrlib/buffer_pools/tNotifyOnRecycle.h"
 
 //----------------------------------------------------------------------
 // Namespace declaration
@@ -132,6 +133,7 @@ public:
   {
     assert(info.buffer_management_info && "Received empty buffer_management_info. This is not allowed using this policy.");
     QueueBased* owner_pool = static_cast<QueueBased*>(info.buffer_management_info);
+    NotifyOnRecycle(buffer);
     owner_pool->unused_buffers.Enqueue(tQueuePointer(buffer));
   }
 
@@ -145,6 +147,13 @@ private:
 
   /*! Number of buffers in this pool */
   std::atomic<int> buffer_count;
+
+
+  static inline void NotifyOnRecycle(void*) {}
+  static inline void NotifyOnRecycle(tNotifyOnRecycle* recycled)
+  {
+    static_cast<T*>(recycled)->OnRecycle();
+  }
 };
 
 //----------------------------------------------------------------------

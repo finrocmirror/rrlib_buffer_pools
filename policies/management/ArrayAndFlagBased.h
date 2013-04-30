@@ -45,6 +45,7 @@
 //----------------------------------------------------------------------
 // Internal includes with ""
 //----------------------------------------------------------------------
+#include "rrlib/buffer_pools/tNotifyOnRecycle.h"
 
 //----------------------------------------------------------------------
 // Namespace declaration
@@ -192,6 +193,7 @@ public:
   {
     assert(info.buffer_management_info && "Received empty buffer_management_info. This is not allowed using this policy.");
     tArrayElement* array_entry = static_cast<tArrayElement*>(info.buffer_management_info);
+    NotifyOnRecycle(buffer);
     *array_entry = buffer; // restore pointer (NULL -> buffer pointer)
   }
 
@@ -217,6 +219,12 @@ private:
   bool MarkBufferUsed(tArrayElement& array_element, typename std::enable_if<MULTIPLE_READERS, T>::type* buffer)
   {
     return array_element.compare_exchange_strong(buffer, NULL);
+  }
+
+  static inline void NotifyOnRecycle(void*) {}
+  static inline void NotifyOnRecycle(tNotifyOnRecycle* recycled)
+  {
+    static_cast<T*>(recycled)->OnRecycle();
   }
 };
 
