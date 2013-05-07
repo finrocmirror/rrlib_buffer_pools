@@ -31,6 +31,7 @@
  *
  * Container with management information for buffer pool buffer.
  * Required for UseBufferContainer recycling policy.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__tBufferContainer_h__

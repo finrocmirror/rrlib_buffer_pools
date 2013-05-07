@@ -34,6 +34,7 @@
  * Calling DeleteGarbage() will check if any of these pools can be deleted safely now - and possibly do so.
  * When using this policy and deleting pools at application runtime,
  * make sure to call this once in a while to prevent memory leaks.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__policies__deleting__CollectGarbage_h__

@@ -36,6 +36,7 @@
  *
  * Pro: any C++ type can be used in pool
  * Con: unique_ptr have size of two pointers => they are not suitable for use in concurrent queues
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__policies__recycling__StoreOwnerInUniquePointer_h__

@@ -34,6 +34,7 @@
  *
  * Pro: unique_ptr have size of single pointer => they are suitable for use in concurrent queues
  * Con: T must be movable. Buffers are one pointer larger than they could be.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__policies__recycling__UseBufferContainer_h__

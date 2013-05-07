@@ -26,6 +26,7 @@
  * \date    2012-10-01
  *
  * Test basic operation of buffer pools with various combinations of policies.
+ *
  */
 //----------------------------------------------------------------------
 

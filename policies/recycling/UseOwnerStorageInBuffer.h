@@ -34,6 +34,7 @@
  *
  * Pro: unique_ptr have size of single pointer => they are suitable for use in concurrent queues
  * Con: T must derive from tBufferPoolInfoStorage<...>. T is one pointer larger than it could be.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__policies__recycling__UseOwnerStorageInBuffer_h__

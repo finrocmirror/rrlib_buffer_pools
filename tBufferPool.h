@@ -30,6 +30,7 @@
  * \b tBufferPool
  *
  * This class manages a pool of reusable buffers.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__tBufferPool_h__

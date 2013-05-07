@@ -31,6 +31,7 @@
  *
  * Buffers are stored in an array list.
  * Whether buffers are in use is signaled by a flag.
+ *
  */
 //----------------------------------------------------------------------
 #ifndef __rrlib__buffer_pools__policies__management__ArrayAndFlagBased_h__
