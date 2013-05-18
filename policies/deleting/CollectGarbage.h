@@ -77,7 +77,7 @@ namespace deleting
  * make sure to call this once in a while to prevent memory leaks.
  */
 template <typename TBufferManagementPolicy>
-class CollectGarbage : boost::noncopyable
+class CollectGarbage : private rrlib::util::tNoncopyable
 {
 
 //----------------------------------------------------------------------

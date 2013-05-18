@@ -106,7 +106,7 @@ template < typename T,
          template <typename, typename> class TRecycling = recycling::StoreOwnerInUniquePointer,
          typename TBufferDeleter = std::default_delete<typename TRecycling<T, int>::tManagedType>,
          typename... TBufferManagementPolicyArgs >
-class tBufferPool : boost::noncopyable
+class tBufferPool : private rrlib::util::tNoncopyable
 {
 //----------------------------------------------------------------------
 // Public methods and typedefs
