@@ -127,7 +127,7 @@ private:
     }
 
   private:
-    virtual int DeleteBufferPoolGarbage()
+    virtual int DeleteBufferPoolGarbage() override
     {
       return buffer_management.DeleteGarbage();
     }
