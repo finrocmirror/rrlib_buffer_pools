@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE targets PUBLIC "-//RRLIB//DTD make 14.05" "http://finroc.org/xml/14.05/make.dtd">
 <targets>
 
-  <rrlib>
+  <library>
     <sources>
       *.h
       *.cpp
       policies/**
     </sources>
-  </rrlib>
+  </library>
   
-  <testprogram name="basic_operation">
+  <program name="basic_operation">
     <sources>
-      test/basic_operation.cpp
+      tests/basic_operation.cpp
     </sources>
-  </testprogram>
+  </program>
   
 </targets>
