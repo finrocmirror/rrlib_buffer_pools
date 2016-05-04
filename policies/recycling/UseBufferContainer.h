@@ -85,14 +85,9 @@ public:
   typedef tBufferContainer<T> tManagedType;
   typedef std::unique_ptr<T, UseBufferContainer> tPointer;
 
-  size_t GetOffset(tBufferContainer<T>* buffer = NULL) const
-  {
-    return ((char*)&buffer->GetData()) - ((char*)buffer);
-  }
-
   void operator()(T* p) const
   {
-    tBufferContainer<T>* buffer = reinterpret_cast<tBufferContainer<T>*>(((char*)p) - GetOffset());
+    tBufferContainer<T>* buffer = reinterpret_cast<tBufferContainer<T>*>(((char*)p) - tBufferContainer<T>::GetBufferOffset());
     TBufferManagementPolicy::RecycleBuffer(*buffer, buffer);
   }
 

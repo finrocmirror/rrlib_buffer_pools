@@ -90,6 +90,15 @@ public:
     return buffer;
   }
 
+  /*!
+   * \return Offset of buffer in tBufferContainer object
+   */
+  static size_t GetBufferOffset()
+  {
+    tBufferContainer<T>* container = nullptr;
+    return reinterpret_cast<char*>(&container->buffer) - reinterpret_cast<char*>(container);
+  }
+
 //----------------------------------------------------------------------
 // Private fields and methods
 //----------------------------------------------------------------------
